@@ -8,7 +8,7 @@ public class Board : MonoBehaviour
 
     public GridCell[] Cells {get {return cells;}}
 
-    private void Start ()
+    private void Awake ()
     {
         cells = GetComponentsInChildren<GridCell>();
     }
