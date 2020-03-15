@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 688852396608703511}
   - component: {fileID: 688852396608703510}
   - component: {fileID: 688852396608703509}
+  - component: {fileID: 6213574400798947002}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -194,4 +195,32 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 688852396608703510}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6213574400798947002}
+        m_MethodName: setCell
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &6213574400798947002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688852396608703979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c72c103a57812a49b4524bbd978e215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  x: {fileID: 0}
+  o: {fileID: 0}
+  button: {fileID: 688852396608703509}
+  playerTxt: X
+  buttonText: {fileID: 688852395268844464}
