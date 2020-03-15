@@ -10,24 +10,18 @@ using UnityEditor;
 public class GridCell : MonoBehaviour
 {
     [SerializeField]
-    private Image x;
+    private GameObject x;
 
     [SerializeField]
-    private Image o;
+    private GameObject o;
 
     [SerializeField]
     private Button button = null;
 
-    [SerializeField]
-    private string playerTxt = null;
-
-    [SerializeField]
-    private Text buttonText = null;
-
     public void setCell ()
     {
         Debug.Log ("button pressed");
-        buttonText.text = playerTxt;
+        x.SetActive (true);
         button.interactable = false;
     }
     // Start is called before the first frame update
