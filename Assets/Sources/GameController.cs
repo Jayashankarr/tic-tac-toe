@@ -36,6 +36,11 @@ public class GameController : MonoBehaviour
     public int player_x = 0;
 
     public int player_o = 0;
+
+    public PlayerEnum CurrentPlayerSymbol
+    {
+        get {return currentPlayerSymbol;}
+    }
     
     
     private void Start()
@@ -73,6 +78,14 @@ public class GameController : MonoBehaviour
 
     private void playerSwitch ()
     {
+        if (currentPlayerSymbol == PlayerEnum.X)
+        {
+            currentPlayerSymbol = PlayerEnum.O;
+        }
+        else
+        {
+            currentPlayerSymbol = PlayerEnum.X;
+        }
 
     }
 

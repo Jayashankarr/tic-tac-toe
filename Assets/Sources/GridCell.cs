@@ -25,6 +25,8 @@ public class GridCell : MonoBehaviour
 
     public CellEnum CurrentState
     {
+        set {currentState = value;}
+        
         get {return currentState;}
     }
 
@@ -48,15 +50,20 @@ public class GridCell : MonoBehaviour
 
     public void setCell ()
     {
-        Debug.Log ("button pressed");
-        x.SetActive (true);
+        if (GameController.Controller.CurrentPlayerSymbol == PlayerEnum.X)
+        {
+            x.SetActive (true);
+
+            currentState = CellEnum.X;
+        }
+        else
+        {
+            o.SetActive (true);
+
+            currentState = CellEnum.O;
+        }
+
         button.interactable = false;
-
-        GameController.Controller.player_x |= Index;
-
-        Debug.Log (Convert.ToString(GameController.Controller.player_x,2));
-
-        currentState = CellEnum.X;
 
         GameController.Controller.UpdateTurn (this);
     }
