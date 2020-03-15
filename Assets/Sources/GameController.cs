@@ -63,10 +63,17 @@ public class GameController : MonoBehaviour
 
         lastClickedCell = lastCell;
 
-        //if (numberOfTurns >= 5)
+        if (numberOfTurns >= 5)
         {
             checkForWin(lastCell);
-        } 
+        }
+
+        playerSwitch ();
+    }
+
+    private void playerSwitch ()
+    {
+
     }
 
     private void checkForWin (GridCell cell)
