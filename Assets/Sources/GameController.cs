@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField]
+    private Board board = null;
+
+    private GridCell[] cellList = null;
+
+    private GridCell[,] cellMatrix = null;
+    
     void Start()
     {
+        cellList = board.Cells;
         
-    }
+        cellMatrix = new GridCell[3,3];
 
-    // Update is called once per frame
-    void Update()
-    {
+        for(int i = 0; i < 3; i++)
+        {
+            for(int j = 0; j < 3; j++)
+            {
+                cellMatrix[i, j] = cellList[i * 3 + j];
+            }
+        }
         
     }
 }
