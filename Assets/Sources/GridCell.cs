@@ -50,7 +50,7 @@ public class GridCell : MonoBehaviour
 
     public void setCell ()
     {
-        if (GameController.Controller.CurrentPlayerSymbol == PlayerEnum.X)
+        if (GameController.Controller.CurrentTurn == PlayerEnum.X)
         {
             x.SetActive (true);
 
@@ -65,7 +65,7 @@ public class GridCell : MonoBehaviour
 
         button.interactable = false;
 
-        GameController.Controller.UpdateTurn (this);
+       GameController.Controller.UpdateTurn (this);
     }
     // Start is called before the first frame update
     void Start()

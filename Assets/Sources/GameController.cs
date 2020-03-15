@@ -37,7 +37,7 @@ public class GameController : MonoBehaviour
 
     public int player_o = 0;
 
-    public PlayerEnum CurrentPlayerSymbol
+    public PlayerEnum CurrentTurn
     {
         get {return currentPlayerSymbol;}
     }
@@ -73,10 +73,10 @@ public class GameController : MonoBehaviour
             checkForWin(lastCell);
         }
 
-        playerSwitch ();
+        switchPlayer ();
     }
 
-    private void playerSwitch ()
+    private void switchPlayer ()
     {
         if (currentPlayerSymbol == PlayerEnum.X)
         {
@@ -92,6 +92,7 @@ public class GameController : MonoBehaviour
     private void checkForWin (GridCell cell)
     {
         int xRowScore = 0, oRowScore = 0, xColScore = 0, oColScore = 0;
+
         int xRightDiagScore = 0, oRightDiagScore = 0, xLeftDiagScore = 0, oLeftDiagScore = 0;
 
         for (int i = 0; i < 3; i++)
@@ -99,25 +100,49 @@ public class GameController : MonoBehaviour
             for (int j = 0; j < 3; j++)
             {
                 //rows
-                if (cellMatrix[i, j].CurrentState == CellEnum.X) xRowScore++;
-                else if (cellMatrix[i, j].CurrentState == CellEnum.O) oRowScore++;
+                if (cellMatrix[i, j].CurrentState == CellEnum.X)
+                {
+                    xRowScore++;
+                }
+                else if (cellMatrix[i, j].CurrentState == CellEnum.O)
+                {
+                    oRowScore++;
+                }
 
                 //columns
-                if (cellMatrix[j, i].CurrentState == CellEnum.X) xColScore++;
-                else if (cellMatrix[j, i].CurrentState == CellEnum.O) oColScore++;
+                if (cellMatrix[j, i].CurrentState == CellEnum.X)
+                {
+                    xColScore++;
+                }
+                else if (cellMatrix[j, i].CurrentState == CellEnum.O)
+                {
+                    oColScore++;
+                }
 
                 //main diag
                 if (i == j)
                 {
-                    if (cellMatrix[i, j].CurrentState == CellEnum.X) xRightDiagScore++;
-                    else if (cellMatrix[i, j].CurrentState == CellEnum.O) oRightDiagScore++;
+                    if (cellMatrix[i, j].CurrentState == CellEnum.X)
+                    {
+                        xRightDiagScore++;
+                    }
+                    else if (cellMatrix[i, j].CurrentState == CellEnum.O)
+                    {
+                        oRightDiagScore++;
+                    }
                 }
 
                 //secondary diag
                 if (i + j == 2)
                 {
-                    if (cellMatrix[i, j].CurrentState == CellEnum.X) xLeftDiagScore++;
-                    else if (cellMatrix[i, j].CurrentState == CellEnum.O) oLeftDiagScore++;
+                    if (cellMatrix[i, j].CurrentState == CellEnum.X)
+                    {
+                        xLeftDiagScore++;
+                    }
+                    else if (cellMatrix[i, j].CurrentState == CellEnum.O)
+                    {
+                        oLeftDiagScore++;
+                    }
                 }
 
             }//end of the inner loop
@@ -253,5 +278,10 @@ public class GameController : MonoBehaviour
     public GridCell GetLastClickedCell()
     {
         return lastClickedCell;
+    }
+
+    public GridCell[] GetCellList()
+    {
+        return cellList;
     }
 }
