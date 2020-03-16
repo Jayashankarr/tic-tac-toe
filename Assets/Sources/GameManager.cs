@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,18 +16,37 @@ public class GameManager : MonoBehaviour
     private GameObject gameBoard;
 
     [SerializeField]
-    private GameObject gameControllerGameObj;
+    private GameObject gameControllerGo;
 
     [SerializeField]
     private GameObject facebookManagerGo;
+
+    [SerializeField]
+    private GameObject playerInfo;
+
+    [SerializeField]
+    private Text playerxName;
+
+    [SerializeField]
+    private Text playeroName;
+
+    [SerializeField]
+    private Image playerXImage;
+
+    [SerializeField]
+    private Image playerOImage;
+
+    [SerializeField]
+    private GameObject AiGO;
+    
 
     public GameController GameController;
 
     public static GameManager Instance;
 
-    private GamePlayer player_x;
+    public GamePlayer player_x;
 
-    private GamePlayer player_o;
+    public GamePlayer player_o;
 
     private PlayerAi player_Ai;
 
@@ -49,16 +69,18 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
 
-        GameController = gameControllerGameObj.GetComponent<GameController>();
+        GameController = gameControllerGo.GetComponent<GameController>();
     }
 
     public void SinglePlayerSelected ()
     {
         gameType = GameType.SINGLE_PLAYER;
 
+        AiGO.SetActive (true);
+
         player_x = new Player ();
 
-        player_o = new PlayerAi ();
+        player_o = AiGO.GetComponent<PlayerAi>();
 
         startGame ();
     }
@@ -79,6 +101,8 @@ public class GameManager : MonoBehaviour
         mainMenu.SetActive (false);
 
         gameBoard.SetActive (true);
+
+        playerInfo.SetActive (true);
     }
 
     public void OnCellClicked (GridCell cell)

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerAi : GamePlayer 
 {
-    private PlayerEnum aiSymbol = PlayerEnum.O;
+    public PlayerEnum aiSymbol = PlayerEnum.O;
 
     [SerializeField]
     private float turnDelay = 0.5f;
@@ -19,10 +19,14 @@ public class PlayerAi : GamePlayer
     private void Awake()
     {
         turnDelay = Mathf.Max(turnDelay, 0.1f);
+
+        enemyTurns = new List<Vector2>();
+
+        prevTurns = new List<Vector2>();
     }
 
     
-    public void onPlayerClick (GridCell cell)
+    public void ActivateForTurn ()
     {
         GridCell lastClickedCell = GameController.Controller.GetLastClickedCell();
 
@@ -44,7 +48,7 @@ public class PlayerAi : GamePlayer
     
     private void PerformTurn()
     {
-        GridCell[,] cells = new GridCell[3,3];
+        GridCell[,] cells = GameManager.Instance.GameController.GetCellMatrix();
 
         GridCell center = cells[1, 1];
 

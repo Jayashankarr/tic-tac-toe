@@ -39,7 +39,7 @@ public class GridCell : MonoBehaviour
 
     public int Index
     {
-        set {index = value; buttonText.text = value.ToString();}
+        set {index = value;}
 
         get {return index;}
     }
@@ -55,6 +55,8 @@ public class GridCell : MonoBehaviour
             x.SetActive (true);
 
             currentState = CellEnum.X;
+
+
         }
         else
         {
@@ -66,16 +68,5 @@ public class GridCell : MonoBehaviour
         button.interactable = false;
 
        GameController.Controller.UpdateTurn (this);
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

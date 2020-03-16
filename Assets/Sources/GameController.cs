@@ -15,7 +15,16 @@ public class GameController : MonoBehaviour
     private Color oColor = Color.clear;
 
     [SerializeField]
+    private GameObject playerXInfoGO;
+
+    [SerializeField]
+    private GameObject playerOInfoGO;
+
+    [SerializeField]
     private WinLine line = null;
+
+    [SerializeField]
+    private PlayerAi ai;
 
     private GridCell[] cellList = null;
 
@@ -68,6 +77,17 @@ public class GameController : MonoBehaviour
 
         lastClickedCell = lastCell;
 
+        int weight = 1 << lastCell.Index;
+
+        if (lastCell.CurrentState == CellEnum.X)
+        {
+            GameManager.Instance.player_x.CheckWeight |= weight;
+        }
+        else
+        {
+            GameManager.Instance.player_o.CheckWeight |= weight;
+        }
+
         if (numberOfTurns >= 5)
         {
             checkForWin(lastCell);
@@ -78,118 +98,202 @@ public class GameController : MonoBehaviour
 
     private void switchPlayer ()
     {
-        if (currentPlayerSymbol == PlayerEnum.X)
+        if (GameManager.Instance.GameType == GameType.SINGLE_PLAYER)
         {
-            currentPlayerSymbol = PlayerEnum.O;
+            if (currentPlayerSymbol == PlayerEnum.X)
+            {
+                currentPlayerSymbol = PlayerEnum.O;
+
+                AIturn ();
+            }
+            else
+            {
+                currentPlayerSymbol = PlayerEnum.X;
+            }
         }
-        else
-        {
-            currentPlayerSymbol = PlayerEnum.X;
-        }
+        
 
     }
 
     private void checkForWin (GridCell cell)
     {
-        int xRowScore = 0, oRowScore = 0, xColScore = 0, oColScore = 0;
-
-        int xRightDiagScore = 0, oRightDiagScore = 0, xLeftDiagScore = 0, oLeftDiagScore = 0;
-
-        for (int i = 0; i < 3; i++)
+        LineType type;
+        
+        if (lastClickedCell.CurrentState == CellEnum.X)
         {
-            for (int j = 0; j < 3; j++)
+            
+
+            if ( ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.R_1) == (int)WinCombo.R_1) ||
+               ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.R_2) == (int)WinCombo.R_2) ||
+               ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.R_3) == (int)WinCombo.R_3))
             {
-                //rows
-                if (cellMatrix[i, j].CurrentState == CellEnum.X)
-                {
-                    xRowScore++;
-                }
-                else if (cellMatrix[i, j].CurrentState == CellEnum.O)
-                {
-                    oRowScore++;
-                }
+                type = LineType.HORIZONTAL;
 
-                //columns
-                if (cellMatrix[j, i].CurrentState == CellEnum.X)
-                {
-                    xColScore++;
-                }
-                else if (cellMatrix[j, i].CurrentState == CellEnum.O)
-                {
-                    oColScore++;
-                }
-
-                //main diag
-                if (i == j)
-                {
-                    if (cellMatrix[i, j].CurrentState == CellEnum.X)
-                    {
-                        xRightDiagScore++;
-                    }
-                    else if (cellMatrix[i, j].CurrentState == CellEnum.O)
-                    {
-                        oRightDiagScore++;
-                    }
-                }
-
-                //secondary diag
-                if (i + j == 2)
-                {
-                    if (cellMatrix[i, j].CurrentState == CellEnum.X)
-                    {
-                        xLeftDiagScore++;
-                    }
-                    else if (cellMatrix[i, j].CurrentState == CellEnum.O)
-                    {
-                        oLeftDiagScore++;
-                    }
-                }
-
-            }//end of the inner loop
-
-            if (xRowScore == 3 || xColScore == 3 || xRightDiagScore == 3 || xLeftDiagScore == 3)
-            {
-                Debug.Log ("X wins");
-
-                currentGameState = GameState.GAME_OVER;
-
-                break;
-            }
-            else if (oRowScore == 3 || oColScore == 3 || oRightDiagScore == 3 || oLeftDiagScore == 3)
-            {
-                Debug.Log("O wins");
-
-                currentGameState = GameState.GAME_OVER;
-
-                break;
+                GenerateWinLine (type);
             }
 
-            xRowScore = 0;
-            oRowScore = 0;
-            xColScore = 0;
-            oColScore = 0;
+            if ( ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.C_1) == (int)WinCombo.C_1) ||
+               ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.C_2) == (int)WinCombo.C_2) ||
+               ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.C_3) == (int)WinCombo.C_3))
+            {
+                type = LineType.VERTICAL;
+
+                GenerateWinLine (type);
+            }
+
+            if ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.D_1) == (int)WinCombo.D_1)
+            {
+                type = LineType.DIAGONAL_R;
+
+                GenerateWinLine (type);
+            }
+
+            if ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.D_2) == (int)WinCombo.D_2)
+            {
+                type = LineType.DIAGONAL_L;
+
+                GenerateWinLine (type);
+            }
         }
+        else
+        {
+            int temp = GameManager.Instance.player_o.CheckWeight & (int)WinCombo.D_2;
 
-            if (currentGameState == GameState.GAME_OVER) //If game is over - create a win line.
+            if ( ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.R_1) == (int)WinCombo.R_1) ||
+               ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.R_2) == (int)WinCombo.R_2) ||
+               ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.R_3) == (int)WinCombo.R_3))
             {
-                if (currentPlayerSymbol == PlayerEnum.X)
-                {
-                    line.GetComponent<Image>().color = xColor;
+                type = LineType.HORIZONTAL;
 
-                    CheckWinLineType(xRowScore, xColScore, xRightDiagScore, xLeftDiagScore);
-                }
-                else
-                {
-                    line.GetComponent<Image>().color = oColor;
-
-                    CheckWinLineType(oRowScore, oColScore, oRightDiagScore, oLeftDiagScore);
-                }
+                GenerateWinLine (type);
             }
-            else if (numberOfTurns == 9) //If game isn't over and field is full - tie.
+
+            if ( ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.C_1) == (int)WinCombo.C_1) ||
+               ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.C_2) == (int)WinCombo.C_2) ||
+               ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.C_3) == (int)WinCombo.C_3))
             {
-                Debug.Log("TIE");
-            } 
+                type = LineType.VERTICAL;
+
+                GenerateWinLine (type);
+            }
+
+            if ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.D_1) == (int)WinCombo.D_1)
+            {
+                type = LineType.DIAGONAL_R;
+
+                GenerateWinLine (type);
+            }
+
+            if ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.D_2) == (int)WinCombo.D_2)
+            {
+                type = LineType.DIAGONAL_L;
+
+                GenerateWinLine (type);
+            }
+        }
     }
+
+    // private void checkForWin (GridCell cell)
+    // {
+    //     int xRowScore = 0, oRowScore = 0, xColScore = 0, oColScore = 0;
+
+    //     int xRightDiagScore = 0, oRightDiagScore = 0, xLeftDiagScore = 0, oLeftDiagScore = 0;
+
+    //     for (int i = 0; i < 3; i++)
+    //     {
+    //         for (int j = 0; j < 3; j++)
+    //         {
+    //             //rows
+    //             if (cellMatrix[i, j].CurrentState == CellEnum.X)
+    //             {
+    //                 xRowScore++;
+    //             }
+    //             else if (cellMatrix[i, j].CurrentState == CellEnum.O)
+    //             {
+    //                 oRowScore++;
+    //             }
+
+    //             //columns
+    //             if (cellMatrix[j, i].CurrentState == CellEnum.X)
+    //             {
+    //                 xColScore++;
+    //             }
+    //             else if (cellMatrix[j, i].CurrentState == CellEnum.O)
+    //             {
+    //                 oColScore++;
+    //             }
+
+    //             //main diag
+    //             if (i == j)
+    //             {
+    //                 if (cellMatrix[i, j].CurrentState == CellEnum.X)
+    //                 {
+    //                     xRightDiagScore++;
+    //                 }
+    //                 else if (cellMatrix[i, j].CurrentState == CellEnum.O)
+    //                 {
+    //                     oRightDiagScore++;
+    //                 }
+    //             }
+
+    //             //secondary diag
+    //             if (i + j == 2)
+    //             {
+    //                 if (cellMatrix[i, j].CurrentState == CellEnum.X)
+    //                 {
+    //                     xLeftDiagScore++;
+    //                 }
+    //                 else if (cellMatrix[i, j].CurrentState == CellEnum.O)
+    //                 {
+    //                     oLeftDiagScore++;
+    //                 }
+    //             }
+
+    //         }//end of the inner loop
+
+    //         if (xRowScore == 3 || xColScore == 3 || xRightDiagScore == 3 || xLeftDiagScore == 3)
+    //         {
+    //             Debug.Log ("X wins");
+
+    //             currentGameState = GameState.GAME_OVER;
+
+    //             break;
+    //         }
+    //         else if (oRowScore == 3 || oColScore == 3 || oRightDiagScore == 3 || oLeftDiagScore == 3)
+    //         {
+    //             Debug.Log("O wins");
+
+    //             currentGameState = GameState.GAME_OVER;
+
+    //             break;
+    //         }
+
+    //         xRowScore = 0;
+    //         oRowScore = 0;
+    //         xColScore = 0;
+    //         oColScore = 0;
+    //     }
+
+    //         if (currentGameState == GameState.GAME_OVER) //If game is over - create a win line.
+    //         {
+    //             if (currentPlayerSymbol == PlayerEnum.X)
+    //             {
+    //                 line.GetComponent<Image>().color = xColor;
+
+    //                 CheckWinLineType(xRowScore, xColScore, xRightDiagScore, xLeftDiagScore);
+    //             }
+    //             else
+    //             {
+    //                 line.GetComponent<Image>().color = oColor;
+
+    //                 CheckWinLineType(oRowScore, oColScore, oRightDiagScore, oLeftDiagScore);
+    //             }
+    //         }
+    //         else if (numberOfTurns == 9) //If game isn't over and field is full - tie.
+    //         {
+    //             Debug.Log("TIE");
+    //         } 
+    // }
 
     private void onGameComplete ()
     {
@@ -275,6 +379,11 @@ public class GameController : MonoBehaviour
         line.transform.position = lineOrigin.transform.position;
     }
 
+    public void AIturn()
+    {
+        ai.ActivateForTurn();
+    }
+
     public GridCell GetLastClickedCell()
     {
         return lastClickedCell;
@@ -283,5 +392,10 @@ public class GameController : MonoBehaviour
     public GridCell[] GetCellList()
     {
         return cellList;
+    }
+
+    public GridCell[,] GetCellMatrix()
+    {
+        return cellMatrix;
     }
 }

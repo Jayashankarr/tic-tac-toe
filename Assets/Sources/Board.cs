@@ -11,5 +11,10 @@ public class Board : MonoBehaviour
     private void Awake ()
     {
         cells = GetComponentsInChildren<GridCell>();
+
+        for (int i = 0; i < cells.Length; i++)
+        {
+            cells[i].Index = i;
+        }
     }
 }
