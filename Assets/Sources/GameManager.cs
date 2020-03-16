@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     private GameObject gameControllerGameObj;
 
     [SerializeField]
-    private GameObject facebookManager;
+    private GameObject facebookManagerGo;
 
     public GameController GameController;
 
@@ -35,6 +35,11 @@ public class GameManager : MonoBehaviour
     public GameType GameType
     {
         get {return gameType;}
+    }
+
+    public GameObject FacebookManagerGO
+    {
+        get {return facebookManagerGo;}
     }
 
     private GridCell lastSelectedCell = null;
@@ -92,9 +97,9 @@ public class GameManager : MonoBehaviour
 
     public void EnableFacebookManagerGameobject ()
     {
-        if (!facebookManager.activeInHierarchy)
+        if (!facebookManagerGo.activeInHierarchy)
         {
-            facebookManager.SetActive(true);
+            facebookManagerGo.SetActive(true);
         }
     }
 }

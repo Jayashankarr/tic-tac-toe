@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-//#if FACEBOOK
 using Facebook.Unity;
-//#endif
 
 /// <summary>
 /// Facebook manager
@@ -37,25 +35,9 @@ using Facebook.Unity;
 			get {return profilePic;}
 		}
 
-		private void Start() 
-        {
-            
-        }
-
-		void Awake()
-		{
-			
-		}
-
 		void OnEnable()
 		{
 			CallFBInit ();
-		}
-
-
-		void OnDisable()
-		{
-
 		}
 
 		public void CallFBInit()

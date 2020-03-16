@@ -1,12 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Facebook.Unity;
+using UnityEngine.UI;
 
 public class FbButton : MonoBehaviour
 {
+    private Button button;
     public void OnFbButtonClick ()
     {
-        GameManager.Instance.EnableFacebookManagerGameobject();
+        if (!GameManager.Instance.FacebookManagerGO.activeInHierarchy)
+        {
+            GameManager.Instance.FacebookManagerGO.SetActive (true);
+
+            button.interactable = false;
+        }
     }
 }
