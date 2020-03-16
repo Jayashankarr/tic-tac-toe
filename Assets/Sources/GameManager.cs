@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    
+    [SerializeField]
+    private GameObject startScreen; 
+
     [SerializeField]
     private GameObject mainMenu;
 
@@ -12,6 +16,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private GameObject gameControllerGameObj;
+
+    [SerializeField]
+    private GameObject facebookManager;
 
     public GameController GameController;
 
@@ -81,5 +88,13 @@ public class GameManager : MonoBehaviour
         }
         
         lastSelectedCell = cell;
+    }
+
+    public void EnableFacebookManagerGameobject ()
+    {
+        if (!facebookManager.activeInHierarchy)
+        {
+            facebookManager.SetActive(true);
+        }
     }
 }
