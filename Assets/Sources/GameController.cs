@@ -105,9 +105,13 @@ public class GameController : MonoBehaviour
                 currentPlayerSymbol = PlayerEnum.O;
 
                 AIturn ();
+
+                EnableCellInputs (false);
             }
             else
             {
+                EnableCellInputs (true);
+                
                 currentPlayerSymbol = PlayerEnum.X;
             }
         }
@@ -298,6 +302,14 @@ public class GameController : MonoBehaviour
     private void onGameComplete ()
     {
 
+    }
+
+    public void EnableCellInputs (bool status)
+    {
+        for (int i = 0; i < cellList.Length; i++)
+        {
+            cellList[i].Button.interactable = status;
+        }
     }
 
     private void CheckWinLineType(int row, int col, int d_m, int d_s)

@@ -102,6 +102,8 @@ using Facebook.Unity;
 
 				Debug.Log(lastResponse);
 
+				GameManager.Instance.FbBtn.interactable = true;
+
 				return;
 			}
 
@@ -113,6 +115,8 @@ using Facebook.Unity;
 				lastResponse = "Error Response:\n" + result.Error;
 
 				Debug.Log(result.Error);
+
+				GameManager.Instance.FbBtn.interactable = true;
 			}
 			else if (result.Cancelled)
 			{
@@ -121,6 +125,8 @@ using Facebook.Unity;
 				lastResponse = "Cancelled Response:\n" + result.RawResult;
 
 				Debug.Log(result.RawResult);
+
+				GameManager.Instance.FbBtn.interactable = true;
 			}
 			else if (!string.IsNullOrEmpty(result.RawResult))
 			{
@@ -135,6 +141,8 @@ using Facebook.Unity;
 				lastResponse = "Empty Response\n";
 
 				Debug.Log(lastResponse);
+
+				GameManager.Instance.FbBtn.interactable = true;
 			}
 		}
 
@@ -147,6 +155,8 @@ using Facebook.Unity;
 			userID = AccessToken.CurrentAccessToken.UserId;
 
 			getPicture(AccessToken.CurrentAccessToken.UserId);
+
+			GameManager.Instance.ShowMenuScreen ();
 		}
 
 		private void getUserName()

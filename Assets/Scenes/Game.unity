@@ -268,7 +268,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &33635309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1022,7 +1022,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &382757186
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1871,6 +1871,7 @@ MonoBehaviour:
   playerXImage: {fileID: 344382994}
   playerOImage: {fileID: 1271073870}
   AiGO: {fileID: 1846326504}
+  FbBtn: {fileID: 1095791285}
   GameController: {fileID: 33635309}
   player_x: {fileID: 0}
   player_o: {fileID: 0}
@@ -2440,6 +2441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f3f284495804084c8fa2d82c99d6fb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Button: {fileID: 1095791285}
 --- !u!1001 &1110864450
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3229,7 +3231,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1317072824
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3612,7 +3614,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1829725696
 RectTransform:
   m_ObjectHideFlags: 0

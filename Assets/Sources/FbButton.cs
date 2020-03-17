@@ -5,14 +5,18 @@ using UnityEngine.UI;
 
 public class FbButton : MonoBehaviour
 {
-    private Button button;
+    public Button Button;
     public void OnFbButtonClick ()
     {
         if (!GameManager.Instance.FacebookManagerGO.activeInHierarchy)
         {
             GameManager.Instance.FacebookManagerGO.SetActive (true);
 
-            button.interactable = false;
+            Button.interactable = false;
+        }
+        else
+        {
+            GameManager.Instance.FacebookManagerGO.GetComponent<FacebookManager>().CallFBLogin ();
         }
     }
 }

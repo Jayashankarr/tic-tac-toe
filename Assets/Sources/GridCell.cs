@@ -23,6 +23,11 @@ public class GridCell : MonoBehaviour
 
     private CellEnum currentState = CellEnum.EMPTY;
 
+    public Button Button
+    {
+        get {return button;}
+    }
+
     public CellEnum CurrentState
     {
         set {currentState = value;}

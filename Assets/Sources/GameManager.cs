@@ -38,7 +38,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private GameObject AiGO;
-    
+
+    public Button FbBtn;   
 
     public GameController GameController;
 
@@ -65,11 +66,28 @@ public class GameManager : MonoBehaviour
     private GridCell lastSelectedCell = null;
 
 
-    void Start()
+    private void Start()
     {
         Instance = this;
 
         GameController = gameControllerGo.GetComponent<GameController>();
+    }
+
+    public void ShowStartScreen ()
+    {
+
+    }
+
+    public void ShowMenuScreen ()
+    {
+        startScreen.SetActive (false);
+
+        mainMenu.SetActive (true);
+    }
+
+    public void ShowResultScreen ()
+    {
+
     }
 
     public void SinglePlayerSelected ()
