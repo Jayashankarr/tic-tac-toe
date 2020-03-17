@@ -179,11 +179,8 @@ public class GameManager : MonoBehaviour
 
     public void ResetGame ()
     {
-        if (GameController.isActiveAndEnabled)
-        {
-            GameController.ResetGameBoard ();
-        }
-
+        GameController.ResetGameBoard ();
+        
         ResetPlayerData ();
     }
 

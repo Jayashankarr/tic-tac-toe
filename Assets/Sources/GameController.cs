@@ -205,30 +205,6 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void CheckWinLineType(int row, int col, int d_m, int d_s)
-    {
-        LineType type;
-
-        if (row == 3)
-        {
-            type = LineType.HORIZONTAL; 
-        }
-        else if (col == 3)
-        {
-            type = LineType.VERTICAL;
-        }
-        else if (d_m == 3)
-        {
-            type = LineType.DIAGONAL_R;
-        }
-        else
-        {
-            type = LineType.DIAGONAL_L;
-        }
-
-        GenerateWinLine (type);
-    }
-
     private void GenerateWinLine(LineType type)
     {
         Debug.Log ("Generate line");
@@ -308,6 +284,8 @@ public class GameController : MonoBehaviour
 
     public void ResetGameBoard ()
     {
+        gameOver ();
+        
         for (int i = 0; i < cellList.Length; i++)
         {
             cellList[i].ResetCell ();
