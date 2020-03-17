@@ -80,9 +80,5 @@ public class GridCell : MonoBehaviour
         x.SetActive (false);
 
         o.SetActive (false);
-
-        cellIndex = Vector2.zero;
-
-        Index = 0;
     }
 }

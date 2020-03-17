@@ -172,9 +172,9 @@ public class GameManager : MonoBehaviour
 
     private void ResetPlayerData ()
     {
-        player_o.CheckWeight = 0;
+        player_o.CheckedValue = 0;
 
-        player_x.CheckWeight = 0;
+        player_x.CheckedValue = 0;
     }
 
     public void ResetGame ()

@@ -71,11 +71,11 @@ public class GameController : MonoBehaviour
 
         if (lastCell.CurrentState == CellEnum.X)
         {
-            GameManager.Instance.player_x.CheckWeight |= weight;
+            GameManager.Instance.player_x.CheckedValue |= weight;
         }
         else
         {
-            GameManager.Instance.player_o.CheckWeight |= weight;
+            GameManager.Instance.player_o.CheckedValue |= weight;
         }
 
         if (numberOfTurns >= 5)
@@ -115,9 +115,9 @@ public class GameController : MonoBehaviour
         {
             
 
-            if ( ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.R_1) == (int)WinCombo.R_1) ||
-               ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.R_2) == (int)WinCombo.R_2) ||
-               ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.R_3) == (int)WinCombo.R_3) )
+            if ( ( (GameManager.Instance.player_x.CheckedValue & (int)WinCombo.R_1) == (int)WinCombo.R_1) ||
+               ( (GameManager.Instance.player_x.CheckedValue & (int)WinCombo.R_2) == (int)WinCombo.R_2) ||
+               ( (GameManager.Instance.player_x.CheckedValue & (int)WinCombo.R_3) == (int)WinCombo.R_3) )
             {
                 type = LineType.HORIZONTAL;
 
@@ -126,9 +126,9 @@ public class GameController : MonoBehaviour
                 GenerateWinLine (type);
             }
 
-            if ( ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.C_1) == (int)WinCombo.C_1) ||
-               ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.C_2) == (int)WinCombo.C_2) ||
-               ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.C_3) == (int)WinCombo.C_3) )
+            if ( ( (GameManager.Instance.player_x.CheckedValue & (int)WinCombo.C_1) == (int)WinCombo.C_1) ||
+               ( (GameManager.Instance.player_x.CheckedValue & (int)WinCombo.C_2) == (int)WinCombo.C_2) ||
+               ( (GameManager.Instance.player_x.CheckedValue & (int)WinCombo.C_3) == (int)WinCombo.C_3) )
             {
                 type = LineType.VERTICAL;
 
@@ -137,7 +137,7 @@ public class GameController : MonoBehaviour
                 GenerateWinLine (type);
             }
 
-            if ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.D_1) == (int)WinCombo.D_1 )
+            if ( (GameManager.Instance.player_x.CheckedValue & (int)WinCombo.D_1) == (int)WinCombo.D_1 )
             {
                 type = LineType.DIAGONAL_R;
 
@@ -146,7 +146,7 @@ public class GameController : MonoBehaviour
                 GenerateWinLine (type);
             }
 
-            if ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.D_2) == (int)WinCombo.D_2 )
+            if ( (GameManager.Instance.player_x.CheckedValue & (int)WinCombo.D_2) == (int)WinCombo.D_2 )
             {
                 type = LineType.DIAGONAL_L;
 
@@ -157,11 +157,11 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            int temp = GameManager.Instance.player_o.CheckWeight & (int)WinCombo.D_2;
+            int temp = GameManager.Instance.player_o.CheckedValue & (int)WinCombo.D_2;
 
-            if ( ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.R_1) == (int)WinCombo.R_1) ||
-               ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.R_2) == (int)WinCombo.R_2) ||
-               ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.R_3) == (int)WinCombo.R_3) )
+            if ( ( (GameManager.Instance.player_o.CheckedValue & (int)WinCombo.R_1) == (int)WinCombo.R_1) ||
+               ( (GameManager.Instance.player_o.CheckedValue & (int)WinCombo.R_2) == (int)WinCombo.R_2) ||
+               ( (GameManager.Instance.player_o.CheckedValue & (int)WinCombo.R_3) == (int)WinCombo.R_3) )
             {
                 type = LineType.HORIZONTAL;
 
@@ -170,9 +170,9 @@ public class GameController : MonoBehaviour
                 GenerateWinLine (type);
             }
 
-            if ( ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.C_1) == (int)WinCombo.C_1) ||
-               ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.C_2) == (int)WinCombo.C_2) ||
-               ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.C_3) == (int)WinCombo.C_3) )
+            if ( ( (GameManager.Instance.player_o.CheckedValue & (int)WinCombo.C_1) == (int)WinCombo.C_1) ||
+               ( (GameManager.Instance.player_o.CheckedValue & (int)WinCombo.C_2) == (int)WinCombo.C_2) ||
+               ( (GameManager.Instance.player_o.CheckedValue & (int)WinCombo.C_3) == (int)WinCombo.C_3) )
             {
                 type = LineType.VERTICAL;
 
@@ -181,7 +181,7 @@ public class GameController : MonoBehaviour
                 GenerateWinLine (type);
             }
 
-            if ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.D_1) == (int)WinCombo.D_1 )
+            if ( (GameManager.Instance.player_o.CheckedValue & (int)WinCombo.D_1) == (int)WinCombo.D_1 )
             {
                 type = LineType.DIAGONAL_R;
 
@@ -190,7 +190,7 @@ public class GameController : MonoBehaviour
                 GenerateWinLine (type);
             }
 
-            if ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.D_2) == (int)WinCombo.D_2 )
+            if ( (GameManager.Instance.player_o.CheckedValue & (int)WinCombo.D_2) == (int)WinCombo.D_2 )
             {
                 type = LineType.DIAGONAL_L;
 

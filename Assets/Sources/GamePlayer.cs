@@ -7,7 +7,7 @@ public class GamePlayer : MonoBehaviour
 {
     public string name;
 
-    public int CheckWeight = 0;
+    public int CheckedValue = 0;
 
     public Image picture;
 
