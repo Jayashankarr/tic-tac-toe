@@ -18,6 +18,8 @@ public class PlayerAi : GamePlayer
 
     private void Awake()
     {
+        ResetAI ();
+        
         turnDelay = Mathf.Max(turnDelay, 0.1f);
 
         enemyTurns = new List<Vector2>();
@@ -28,7 +30,7 @@ public class PlayerAi : GamePlayer
     
     public void ActivateForTurn ()
     {
-        GridCell lastClickedCell = GameController.Controller.GetLastClickedCell();
+        GridCell lastClickedCell = GameManager.Instance.GameController.GetLastClickedCell();
 
         if (lastClickedCell != null)
         {
@@ -150,7 +152,7 @@ public class PlayerAi : GamePlayer
 
     private GridCell RandomTurn(bool performUntilSuccess)
     {
-        GridCell[] cellList = GameController.Controller.GetCellList();
+        GridCell[] cellList = GameManager.Instance.GameController.GetCellList();
         do
         {
             int index = Random.Range(0, cellList.Length);
@@ -164,5 +166,12 @@ public class PlayerAi : GamePlayer
         while (performUntilSuccess);
 
         return null;
+    }
+
+    public void ResetAI()
+    {
+        prevTurns = new List<Vector2>();
+
+        enemyTurns = new List<Vector2>();
     }
 }

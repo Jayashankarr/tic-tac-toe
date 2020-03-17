@@ -67,4 +67,9 @@ public class WinLine : MonoBehaviour
             maxWidth = maxWidthDiag;
         }
     }
+
+    public void ResetWinLine ()
+    {
+        rectTransform.sizeDelta = new Vector2(startWidth, rectTransform.sizeDelta.y);
+    }
 }

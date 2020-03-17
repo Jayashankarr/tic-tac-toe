@@ -39,6 +39,15 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject AiGO;
 
+    [SerializeField]
+    private GameObject homeBtn;
+
+    [SerializeField]
+    private GameObject resetBtn;
+
+    [SerializeField]
+    private GameObject soundBtn;
+
     public Button FbBtn;   
 
     public GameController GameController;
@@ -83,6 +92,16 @@ public class GameManager : MonoBehaviour
         startScreen.SetActive (false);
 
         mainMenu.SetActive (true);
+
+        playerInfo.SetActive (false);
+
+        homeBtn.SetActive (false);
+
+        resetBtn.SetActive (false);
+
+        gameBoard.SetActive (false);
+
+        GameController.gameObject.SetActive (false);
     }
 
     public void ShowResultScreen ()
@@ -121,6 +140,12 @@ public class GameManager : MonoBehaviour
         gameBoard.SetActive (true);
 
         playerInfo.SetActive (true);
+
+        homeBtn.SetActive (true);
+
+        resetBtn.SetActive (true);
+
+        GameController.gameObject.SetActive (true);
     }
 
     public void OnCellClicked (GridCell cell)
@@ -143,5 +168,29 @@ public class GameManager : MonoBehaviour
         {
             facebookManagerGo.SetActive(true);
         }
+    }
+
+    private void ResetPlayerData ()
+    {
+        player_o.CheckWeight = 0;
+
+        player_x.CheckWeight = 0;
+    }
+
+    public void ResetGame ()
+    {
+        if (GameController.isActiveAndEnabled)
+        {
+            GameController.ResetGameBoard ();
+        }
+
+        ResetPlayerData ();
+    }
+
+    public void OnHomeButtonClicked ()
+    {
+        ResetGame ();
+
+        ShowMenuScreen ();
     }
 }

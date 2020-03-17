@@ -19,8 +19,6 @@ public class GridCell : MonoBehaviour
     [SerializeField]
     private Button button = null;
 
-    public Text buttonText = null;
-
     private CellEnum currentState = CellEnum.EMPTY;
 
     public Button Button
@@ -55,7 +53,7 @@ public class GridCell : MonoBehaviour
 
     public void setCell ()
     {
-        if (GameController.Controller.CurrentTurn == PlayerEnum.X)
+        if (GameManager.Instance.GameController.CurrentTurn == PlayerEnum.X)
         {
             x.SetActive (true);
 
@@ -72,6 +70,19 @@ public class GridCell : MonoBehaviour
 
         button.interactable = false;
 
-       GameController.Controller.UpdateTurn (this);
+       GameManager.Instance.GameController.UpdateTurn (this);
+    }
+
+    public void ResetCell ()
+    {
+        currentState = CellEnum.EMPTY;
+
+        x.SetActive (false);
+
+        o.SetActive (false);
+
+        cellIndex = Vector2.zero;
+
+        Index = 0;
     }
 }
