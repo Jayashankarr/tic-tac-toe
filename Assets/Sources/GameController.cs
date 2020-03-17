@@ -117,32 +117,40 @@ public class GameController : MonoBehaviour
 
             if ( ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.R_1) == (int)WinCombo.R_1) ||
                ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.R_2) == (int)WinCombo.R_2) ||
-               ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.R_3) == (int)WinCombo.R_3))
+               ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.R_3) == (int)WinCombo.R_3) )
             {
                 type = LineType.HORIZONTAL;
+
+                line.gameObject.GetComponent<Image>().color = xColor;
 
                 GenerateWinLine (type);
             }
 
             if ( ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.C_1) == (int)WinCombo.C_1) ||
                ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.C_2) == (int)WinCombo.C_2) ||
-               ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.C_3) == (int)WinCombo.C_3))
+               ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.C_3) == (int)WinCombo.C_3) )
             {
                 type = LineType.VERTICAL;
 
+                line.gameObject.GetComponent<Image>().color = xColor;
+
                 GenerateWinLine (type);
             }
 
-            if ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.D_1) == (int)WinCombo.D_1)
+            if ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.D_1) == (int)WinCombo.D_1 )
             {
                 type = LineType.DIAGONAL_R;
 
+                line.gameObject.GetComponent<Image>().color = xColor;
+
                 GenerateWinLine (type);
             }
 
-            if ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.D_2) == (int)WinCombo.D_2)
+            if ( (GameManager.Instance.player_x.CheckWeight & (int)WinCombo.D_2) == (int)WinCombo.D_2 )
             {
                 type = LineType.DIAGONAL_L;
+
+                line.gameObject.GetComponent<Image>().color = xColor;
 
                 GenerateWinLine (type);
             }
@@ -153,32 +161,40 @@ public class GameController : MonoBehaviour
 
             if ( ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.R_1) == (int)WinCombo.R_1) ||
                ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.R_2) == (int)WinCombo.R_2) ||
-               ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.R_3) == (int)WinCombo.R_3))
+               ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.R_3) == (int)WinCombo.R_3) )
             {
                 type = LineType.HORIZONTAL;
+
+                line.gameObject.GetComponent<Image>().color = oColor;
 
                 GenerateWinLine (type);
             }
 
             if ( ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.C_1) == (int)WinCombo.C_1) ||
                ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.C_2) == (int)WinCombo.C_2) ||
-               ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.C_3) == (int)WinCombo.C_3))
+               ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.C_3) == (int)WinCombo.C_3) )
             {
                 type = LineType.VERTICAL;
 
+                line.gameObject.GetComponent<Image>().color = oColor;
+
                 GenerateWinLine (type);
             }
 
-            if ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.D_1) == (int)WinCombo.D_1)
+            if ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.D_1) == (int)WinCombo.D_1 )
             {
                 type = LineType.DIAGONAL_R;
 
+                line.gameObject.GetComponent<Image>().color = oColor;
+
                 GenerateWinLine (type);
             }
 
-            if ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.D_2) == (int)WinCombo.D_2)
+            if ( (GameManager.Instance.player_o.CheckWeight & (int)WinCombo.D_2) == (int)WinCombo.D_2 )
             {
                 type = LineType.DIAGONAL_L;
+
+                line.gameObject.GetComponent<Image>().color = oColor;
 
                 GenerateWinLine (type);
             }
@@ -285,7 +301,7 @@ public class GameController : MonoBehaviour
     public void ResetGameBoard ()
     {
         gameOver ();
-        
+
         for (int i = 0; i < cellList.Length; i++)
         {
             cellList[i].ResetCell ();
