@@ -9,6 +9,8 @@ using Facebook.Unity;
 /// <summary>
 /// Facebook manager
 /// </summary>
+namespace TicTakToe.Manager
+{
 	public class FacebookManager : MonoBehaviour
 	{
 		private bool loginEnable;
@@ -209,3 +211,4 @@ using Facebook.Unity;
 			Debug.Log(result);
 		}
 	}
+}

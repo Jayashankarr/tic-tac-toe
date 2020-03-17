@@ -1,5 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TicTakToe.Manager;
+using TicTakToe.Player;
+using TicTakToe.Ui;
+using TicTakToe.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -36,9 +40,9 @@ public class GameController : MonoBehaviour
 
     private GameState currentGameState = GameState.RESUME;
 
-    private PlayerEnum currentPlayerSymbol = PlayerEnum.X;
+    private PlayerSymbol currentPlayerSymbol = PlayerSymbol.X;
 
-    public PlayerEnum CurrentTurn
+    public PlayerSymbol CurrentTurn
     {
         get {return currentPlayerSymbol;}
     }
@@ -56,7 +60,7 @@ public class GameController : MonoBehaviour
             {
                 cellMatrix[i, j] = cellList[i * 3 + j];
 
-                cellMatrix[i , j].CellIndex = new Vector2 (i ,j);
+                cellMatrix[i , j].Cell2DIndex = new Vector2 (i ,j);
             }
         }
     }
@@ -69,7 +73,7 @@ public class GameController : MonoBehaviour
 
         int weight = 1 << lastCell.Index;
 
-        if (lastCell.CurrentState == CellEnum.X)
+        if (lastCell.CellAssignedSymbol == CellSymbol.X)
         {
             GameManager.Instance.player_x.CheckedValue |= weight;
         }
@@ -88,9 +92,9 @@ public class GameController : MonoBehaviour
 
     private void switchPlayer ()
     {
-        if (currentPlayerSymbol == PlayerEnum.X)
+        if (currentPlayerSymbol == PlayerSymbol.X)
         {
-            currentPlayerSymbol = PlayerEnum.O;
+            currentPlayerSymbol = PlayerSymbol.O;
 
             if (GameManager.Instance.GameType == GameType.SINGLE_PLAYER)
             {
@@ -103,7 +107,7 @@ public class GameController : MonoBehaviour
         {
             EnableCellInputs (true);
 
-            currentPlayerSymbol = PlayerEnum.X;
+            currentPlayerSymbol = PlayerSymbol.X;
         }
     }
 
@@ -111,7 +115,7 @@ public class GameController : MonoBehaviour
     {
         LineType type;
         
-        if (lastClickedCell.CurrentState == CellEnum.X)
+        if (lastClickedCell.CellAssignedSymbol == CellSymbol.X)
         {
             
 
@@ -226,7 +230,7 @@ public class GameController : MonoBehaviour
         Debug.Log ("Generate line");
         GridCell lineOrigin;
 
-        Vector2 lastCellIndex = lastClickedCell.CellIndex;
+        Vector2 lastCellIndex = lastClickedCell.Cell2DIndex;
 
         line.gameObject.SetActive (true);
 
@@ -263,11 +267,11 @@ public class GameController : MonoBehaviour
 
         switch (currentPlayerSymbol)
         {
-            case PlayerEnum.X:
+            case PlayerSymbol.X:
             line.GetComponent<Image>().color = xColor;;
             break;
 
-            case PlayerEnum.O:
+            case PlayerSymbol.O:
             line.GetComponent<Image>().color = oColor;
             break;
 
@@ -309,7 +313,7 @@ public class GameController : MonoBehaviour
 
         ResetWinLine ();
 
-        currentPlayerSymbol = PlayerEnum.X;
+        currentPlayerSymbol = PlayerSymbol.X;
 
         ai.ResetAI ();
     }
