@@ -65,7 +65,7 @@ public class GameController : MonoBehaviour
     }
 
     public void UpdateTurn(GridCell lastCell)
-    {
+    { 
         numberOfTurns++;
         lastClickedCell = lastCell;
         int weight = 1 << lastCell.Index;
@@ -84,7 +84,10 @@ public class GameController : MonoBehaviour
             checkForWin(lastCell);
         }
 
-        switchPlayer ();
+        if (currentGameState != GameState.GAME_OVER)
+        {
+            switchPlayer ();
+        }
     }
 
     private void switchPlayer ()
@@ -115,7 +118,6 @@ public class GameController : MonoBehaviour
     {
         LineType type;
 
-        
         if (lastClickedCell.CellAssignedSymbol == CellSymbol.X)
         {
             if ( ( (GameManager.Instance.player_x.CheckedValue & (int)WinCombo.R_1) == (int)WinCombo.R_1) ||
@@ -127,6 +129,7 @@ public class GameController : MonoBehaviour
                 GameManager.Instance.player_x.WinType = WinType.WIN;
 
                 GenerateWinLine (type);
+                saveDataOnGameOver ();
             }
 
             if ( ( (GameManager.Instance.player_x.CheckedValue & (int)WinCombo.C_1) == (int)WinCombo.C_1) ||
@@ -138,6 +141,7 @@ public class GameController : MonoBehaviour
                 GameManager.Instance.player_x.WinType = WinType.WIN;
 
                 GenerateWinLine (type);
+                saveDataOnGameOver ();
             }
 
             if ( (GameManager.Instance.player_x.CheckedValue & (int)WinCombo.D_1) == (int)WinCombo.D_1 )
@@ -147,6 +151,7 @@ public class GameController : MonoBehaviour
                 GameManager.Instance.player_x.WinType = WinType.WIN;
 
                 GenerateWinLine (type);
+                saveDataOnGameOver ();
             }
 
             if ( (GameManager.Instance.player_x.CheckedValue & (int)WinCombo.D_2) == (int)WinCombo.D_2 )
@@ -156,6 +161,7 @@ public class GameController : MonoBehaviour
                 GameManager.Instance.player_x.WinType = WinType.WIN;
 
                 GenerateWinLine (type);
+                saveDataOnGameOver ();
             }
         }
         else
@@ -169,6 +175,7 @@ public class GameController : MonoBehaviour
                 GameManager.Instance.player_o.WinType = WinType.WIN;
 
                 GenerateWinLine (type);
+                saveDataOnGameOver ();
             }
 
             if ( ( (GameManager.Instance.player_o.CheckedValue & (int)WinCombo.C_1) == (int)WinCombo.C_1) ||
@@ -180,6 +187,7 @@ public class GameController : MonoBehaviour
                 GameManager.Instance.player_o.WinType = WinType.WIN;
 
                 GenerateWinLine (type);
+                saveDataOnGameOver ();
             }
 
             if ( (GameManager.Instance.player_o.CheckedValue & (int)WinCombo.D_1) == (int)WinCombo.D_1 )
@@ -189,6 +197,7 @@ public class GameController : MonoBehaviour
                 GameManager.Instance.player_o.WinType = WinType.WIN;
 
                 GenerateWinLine (type);
+                saveDataOnGameOver ();
             }
 
             if ( (GameManager.Instance.player_o.CheckedValue & (int)WinCombo.D_2) == (int)WinCombo.D_2 )
@@ -198,15 +207,17 @@ public class GameController : MonoBehaviour
                 GameManager.Instance.player_o.WinType = WinType.WIN;
 
                 GenerateWinLine (type);
+                saveDataOnGameOver ();
             }
+        }
 
-            if (numberOfTurns == 9)
-            {
-                GameManager.Instance.player_x.WinType = WinType.DRAW;
-                GameManager.Instance.player_o.WinType = WinType.DRAW;
+        if (numberOfTurns == 9)
+        {
+            GameManager.Instance.player_x.WinType = WinType.DRAW;
+            GameManager.Instance.player_o.WinType = WinType.DRAW;
 
-                gameOver ();
-            }
+            gameOver ();
+            saveDataOnGameOver ();
         }
     }
 
@@ -214,11 +225,14 @@ public class GameController : MonoBehaviour
     {
         numberOfTurns = 0;
         lastClickedCell = null;
-
-        GameManager.Instance.SaveDataForKey (GameManager.Instance.player_x.Name + "_Score", (int)GameManager.Instance.player_x.WinType);
-        GameManager.Instance.SaveDataForKey (GameManager.Instance.player_o.Name + "_Score", (int)GameManager.Instance.player_o.WinType);
-
+        currentGameState = GameState.GAME_OVER;
         GameManager.Instance.ShowVictory ();
+    }
+
+    private void saveDataOnGameOver ()
+    {
+        GameManager.Instance.SaveDataForKey (GameManager.Instance.player_x.ScoreKey, (int)GameManager.Instance.player_x.WinType);
+        GameManager.Instance.SaveDataForKey (GameManager.Instance.player_o.ScoreKey, (int)GameManager.Instance.player_o.WinType);
     }
 
     public void EnableCellInputs (bool status)
@@ -233,7 +247,6 @@ public class GameController : MonoBehaviour
     {
         GridCell lineOrigin;
         Vector2 lastCellIndex = lastClickedCell.Cell2DIndex;
-
         line.gameObject.SetActive (true);
 
         switch (type)
@@ -316,6 +329,8 @@ public class GameController : MonoBehaviour
         ResetWinLine ();
         currentPlayerSymbol = PlayerSymbol.X;
         ai.ResetAI ();
+        currentGameState = GameState.RESUME;
+        EnableCellInputs (true);
     }
 
     public void ResetWinLine ()

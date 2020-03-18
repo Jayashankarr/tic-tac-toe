@@ -9,6 +9,6 @@ namespace TicTakToe.Utils
 
         MENU = 1,
         
-        GAME_OVER =2
+        GAME_OVER = 2
     }
 }

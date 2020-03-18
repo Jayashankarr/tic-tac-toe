@@ -95,6 +95,7 @@ namespace TicTakToe.Manager
 
         private void Start()
         {
+            PlayerPrefs.DeleteAll();
             Instance = this;
             GameController = gameControllerGo.GetComponent<GameController>();
         }
@@ -152,7 +153,7 @@ namespace TicTakToe.Manager
             playerxName.text = player_x.Name;
             playerXImage.sprite = player_x.Picture;
 
-            player_x.SetPlayerData ("Player_2", 
+            player_o.SetPlayerData ("Player_2", 
                                     null);
             playeroName.text = player_o.Name;
 
@@ -161,10 +162,8 @@ namespace TicTakToe.Manager
 
         private void startGame ()
         {
+            victoryText.gameObject.SetActive (false);
             GameManager.Instance.PlayerXInfo.SetActive (true);
-
-            GameManager.Instance.SaveDataForKey (GameManager.Instance.player_x.Name + "_Score", (int)GameManager.Instance.player_x.WinType);
-            GameManager.Instance.SaveDataForKey (GameManager.Instance.player_o.Name + "_Score", (int)GameManager.Instance.player_o.WinType);
 
             mainMenu.SetActive (false);
             gameBoard.SetActive (true);
@@ -207,6 +206,9 @@ namespace TicTakToe.Manager
             victoryText.text = "";
             GameController.ResetGameBoard ();
             ResetPlayerData ();
+            GameManager.Instance.PlayerXInfo.SetActive (true);
+            GameManager.Instance.PlayerOInfo.SetActive (false);
+            victoryText.gameObject.SetActive (false);
         }
 
         public void OnHomeButtonClicked ()
@@ -218,7 +220,9 @@ namespace TicTakToe.Manager
         public void SaveDataForKey (string key, int value)
         {
             value += PlayerPrefs.GetInt (key,0);
+            Debug.Log (key + " : " + value);
             PlayerPrefs.SetInt (key , value);
+            PlayerPrefs.Save ();
         }
 
         public void OnScoreBoradClicked ()
@@ -233,18 +237,18 @@ namespace TicTakToe.Manager
             {
                 PlayerXInfo.SetActive (true);
             }
-            else
+            else if (player_o.WinType == WinType.WIN)
             {
                 PlayerOInfo.SetActive (true);
             }
-
-            if (player_x.WinType == WinType.DRAW && player_o.WinType == WinType.DRAW)
+            else if (player_x.WinType == WinType.DRAW && player_o.WinType == WinType.DRAW)
             {
                 PlayerXInfo.SetActive (true);
                 PlayerOInfo.SetActive (true);
 
                 victoryText.text = "DRAW";
             }
+            victoryText.gameObject.SetActive (true);
         }
 
         public void OnCloseButtonClicked ()
