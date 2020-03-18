@@ -34,19 +34,16 @@ namespace TicTakToe.Player
         public void ActivateForTurn ()
         {
             GridCell lastClickedCell = GameManager.Instance.GameController.GetLastClickedCell();
-
             if (lastClickedCell != null)
             {
                 enemyTurns.Add(lastClickedCell.Cell2DIndex);
             }
-
             StartCoroutine(TurnDelayCoroutine());
         }
 
         private IEnumerator TurnDelayCoroutine()
         {
             yield return new WaitForSeconds(turnDelay);
-
             PerformTurn();
         }
 
@@ -105,7 +102,6 @@ namespace TicTakToe.Player
                     return cornerCell;
                 }
             }
-
             return null;
         }
 
@@ -129,12 +125,10 @@ namespace TicTakToe.Player
                     {
                         inner.x += 3;
                     }
-
                     if (inner.y < 0)
                     {
                         inner.y += 3;
                     }
-
                     if (cells[(int)inner.x, (int)inner.y].CellAssignedSymbol == CellSymbol.EMPTY)
                     {
                         return cells[(int)inner.x, (int)inner.y];

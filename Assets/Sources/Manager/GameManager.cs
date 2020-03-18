@@ -98,14 +98,8 @@ namespace TicTakToe.Manager
 
         private void Start()
         {
-            PlayerPrefs.DeleteAll();
             Instance = this;
             GameController = gameControllerGo.GetComponent<GameController>();
-        }
-
-        public void ShowStartScreen ()
-        {
-
         }
 
         public void ShowMenuScreen ()
@@ -121,11 +115,6 @@ namespace TicTakToe.Manager
             PlayerOInfo.SetActive (false);
             PlayerXInfo.SetActive (false);
             victoryText.text = "";
-        }
-
-        public void ShowResultScreen ()
-        {
-
         }
 
         public void SinglePlayerSelected ()
