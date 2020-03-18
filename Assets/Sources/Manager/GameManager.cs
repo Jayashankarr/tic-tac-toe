@@ -66,6 +66,9 @@ namespace TicTakToe.Manager
         [SerializeField]
         private Text victoryText;
 
+        [SerializeField]
+        private GameObject skipButton;
+
         public Button FbBtn;   
 
         public GameController GameController;
@@ -108,6 +111,7 @@ namespace TicTakToe.Manager
         public void ShowMenuScreen ()
         {
             startScreen.SetActive (false);
+            skipButton.SetActive (false);
             mainMenu.SetActive (true);
             homeBtn.SetActive (false);
             resetBtn.SetActive (false);
@@ -131,8 +135,16 @@ namespace TicTakToe.Manager
             player_x = new User ();
             player_o = AiGO.GetComponent<PlayerAi>();
 
-            player_x.SetPlayerData (FacebookManagerGO.GetComponent<FacebookManager>().UserName, 
+            if (facebookManagerGo.activeInHierarchy)
+            {
+                player_x.SetPlayerData (FacebookManagerGO.GetComponent<FacebookManager>().UserName, 
                                     FacebookManagerGO.GetComponent<FacebookManager>().ProfilePic);
+            }
+            else
+            {
+                player_x.SetPlayerData ("Player_1", null);
+            }
+            
             playerxName.text = player_x.Name;
             playerXImage.sprite = player_x.Picture;
 
@@ -148,8 +160,15 @@ namespace TicTakToe.Manager
             player_x = new User ();
             player_o = new User ();
 
-            player_x.SetPlayerData (FacebookManagerGO.GetComponent<FacebookManager>().UserName, 
+            if (facebookManagerGo.activeInHierarchy)
+            {
+                player_x.SetPlayerData (FacebookManagerGO.GetComponent<FacebookManager>().UserName, 
                                     FacebookManagerGO.GetComponent<FacebookManager>().ProfilePic);
+            }
+            else
+            {
+                player_x.SetPlayerData ("Player_1", null);
+            }
             playerxName.text = player_x.Name;
             playerXImage.sprite = player_x.Picture;
 

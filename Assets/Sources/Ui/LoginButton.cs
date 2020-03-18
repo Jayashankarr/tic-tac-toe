@@ -6,21 +6,27 @@ using UnityEngine.UI;
 
 namespace TicTakToe.Ui
 {
-    public class FbButton : MonoBehaviour
+    public class LoginButton : MonoBehaviour
     {
-        public Button Button;
+        public Button fbButton;
 
         public void OnFbButtonClick ()
         {
             if (!GameManager.Instance.FacebookManagerGO.activeInHierarchy)
             {
                 GameManager.Instance.FacebookManagerGO.SetActive (true);
-                Button.interactable = false;
+                fbButton.interactable = false;
             }
             else
             {
                 GameManager.Instance.FacebookManagerGO.GetComponent<FacebookManager>().CallFBLogin ();
             }
+        }
+
+        public void OnSkipButtonClicked ()
+        {
+            GameManager.Instance.FacebookManagerGO.SetActive (false);
+            GameManager.Instance.ShowMenuScreen ();
         }
     }
 }
