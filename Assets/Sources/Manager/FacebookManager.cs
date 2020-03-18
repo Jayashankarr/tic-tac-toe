@@ -80,9 +80,8 @@ namespace TicTakToe.Manager
 			if (!loginOnce)
 			{
 				loginOnce = true;
-
 				Debug.Log("login");
-
+				
 				FB.LogInWithReadPermissions(new List<string> { "public_profile", "email", "user_friends" }, HandleResult);
 			}
 		}
@@ -90,7 +89,6 @@ namespace TicTakToe.Manager
 		public void CallFBLogout()
 		{
 			FB.LogOut();
-
 			SceneManager.LoadScene("game");
 		}
 
@@ -101,9 +99,7 @@ namespace TicTakToe.Manager
 			if (result == null)
 			{
 				lastResponse = "Null Response\n";
-
 				Debug.Log(lastResponse);
-
 				GameManager.Instance.FbBtn.interactable = true;
 
 				return;
@@ -113,7 +109,6 @@ namespace TicTakToe.Manager
 			if (!string.IsNullOrEmpty(result.Error))
 			{
 				status = "Error - Check log for details";
-
 				lastResponse = "Error Response:\n" + result.Error;
 
 				Debug.Log(result.Error);
@@ -123,7 +118,6 @@ namespace TicTakToe.Manager
 			else if (result.Cancelled)
 			{
 				status = "Cancelled - Check log for details";
-
 				lastResponse = "Cancelled Response:\n" + result.RawResult;
 
 				Debug.Log(result.RawResult);
@@ -133,17 +127,14 @@ namespace TicTakToe.Manager
 			else if (!string.IsNullOrEmpty(result.RawResult))
 			{
 				status = "Success - Check log for details";
-
 				lastResponse = "Success Response:\n" + result.RawResult;
 
-				loggedSuccefull();//1.3
+				loggedSuccefull();
 			}
 			else
 			{
 				lastResponse = "Empty Response\n";
-
 				Debug.Log(lastResponse);
-
 				GameManager.Instance.FbBtn.interactable = true;
 			}
 		}
@@ -151,13 +142,9 @@ namespace TicTakToe.Manager
 		private void loggedSuccefull()
 		{
 			PlayerPrefs.SetInt("Facebook_Logged", 1);
-
 			PlayerPrefs.Save();
-
 			userID = AccessToken.CurrentAccessToken.UserId;
-
 			getPicture(AccessToken.CurrentAccessToken.UserId);
-
 			GameManager.Instance.ShowMenuScreen ();
 		}
 
@@ -171,7 +158,6 @@ namespace TicTakToe.Manager
 			if (string.IsNullOrEmpty(result.Error))
 			{
 				IDictionary dict = result.ResultDictionary as IDictionary;
-
 				userName = dict["first_name"].ToString();
 			}
 
@@ -184,7 +170,6 @@ namespace TicTakToe.Manager
 			yield return www;
 
 			Texture2D texture = www.texture;
-
 			profilePic = Sprite.Create(texture, new Rect(0, 0, 128, 128), new Vector2(0, 0), 1f);
 		}
 
@@ -199,7 +184,6 @@ namespace TicTakToe.Manager
 			if (string.IsNullOrEmpty(result.Error))
 			{
 				Dictionary<String, object> dic = result.ResultDictionary["data"] as Dictionary<string, object>;
-
 				string url = dic.Where(i => i.Key == "url").First().Value as string;
 
 				StartCoroutine(loadPicture(url));

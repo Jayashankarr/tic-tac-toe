@@ -24,11 +24,8 @@ namespace TicTakToe.Ui
         private void Awake()
         {
             animTime = Mathf.Max(animTime, 0.1f);
-
             rectTransform = GetComponent<RectTransform>();
-
             startWidth = rectTransform.sizeDelta.x;
-
             maxWidth = maxWidthStraight;
         }
 
@@ -42,7 +39,6 @@ namespace TicTakToe.Ui
             while(rectTransform.sizeDelta.x < maxWidth)
             {
                 float scaleSpeed = (maxWidth - startWidth) / animTime;
-
                 rectTransform.sizeDelta += new Vector2(scaleSpeed * Time.deltaTime, 0f);
 
                 if (rectTransform.sizeDelta.x > maxWidth)

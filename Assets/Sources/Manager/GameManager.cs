@@ -54,15 +54,21 @@ namespace TicTakToe.Manager
         [SerializeField]
         private GameObject soundBtn;
 
+        [SerializeField]
+        private GameObject scoreBtn;
+
+        [SerializeField]
+        private GameObject scoreBoard;
+
         public Button FbBtn;   
 
         public GameController GameController;
 
         public static GameManager Instance;
 
-        public User player_x;
+        public GamePlayer player_x;
 
-        public User player_o;
+        public GamePlayer player_o;
 
         private PlayerAi player_Ai;
 
@@ -84,7 +90,6 @@ namespace TicTakToe.Manager
         private void Start()
         {
             Instance = this;
-
             GameController = gameControllerGo.GetComponent<GameController>();
         }
 
@@ -96,18 +101,13 @@ namespace TicTakToe.Manager
         public void ShowMenuScreen ()
         {
             startScreen.SetActive (false);
-
             mainMenu.SetActive (true);
-
             playerInfo.SetActive (false);
-
             homeBtn.SetActive (false);
-
             resetBtn.SetActive (false);
-
             gameBoard.SetActive (false);
-
             GameController.gameObject.SetActive (false);
+            scoreBtn.SetActive (false);
         }
 
         public void ShowResultScreen ()
@@ -118,40 +118,44 @@ namespace TicTakToe.Manager
         public void SinglePlayerSelected ()
         {
             gameType = GameType.SINGLE_PLAYER;
-
             AiGO.SetActive (true);
-
             player_x = new User ();
+            player_o = AiGO.GetComponent<PlayerAi>();
 
-            player_Ai = AiGO.GetComponent<PlayerAi>();
+            player_x.SetPlayerData (FacebookManagerGO.GetComponent<FacebookManager>().UserName, 
+                                    FacebookManagerGO.GetComponent<FacebookManager>().ProfilePic);
 
+            player_x.SetPlayerData ("AI", 
+                                    null);
             startGame ();
         }
 
         public void MultiPlayerSelected ()
         {
             gameType = GameType.MULTI_PLAYER;
-
             player_x = new User ();
-
             player_o = new User ();
 
+            player_x.SetPlayerData (FacebookManagerGO.GetComponent<FacebookManager>().UserName, 
+                                    FacebookManagerGO.GetComponent<FacebookManager>().ProfilePic);
+
+            player_x.SetPlayerData ("Player_2", 
+                                    null);
             startGame ();
         }
 
         private void startGame ()
         {
+            GameManager.Instance.SaveDataForKey (GameManager.Instance.player_x.Name + "_Score", (int)GameManager.Instance.player_x.WinType);
+            GameManager.Instance.SaveDataForKey (GameManager.Instance.player_o.Name + "_Score", (int)GameManager.Instance.player_o.WinType);
+
             mainMenu.SetActive (false);
-
             gameBoard.SetActive (true);
-
             playerInfo.SetActive (true);
-
             homeBtn.SetActive (true);
-
             resetBtn.SetActive (true);
-
             GameController.gameObject.SetActive (true);
+            scoreBtn.SetActive (true);
         }
 
         public void OnCellClicked (GridCell cell)
@@ -179,22 +183,34 @@ namespace TicTakToe.Manager
         private void ResetPlayerData ()
         {
             player_o.CheckedValue = 0;
-
             player_x.CheckedValue = 0;
         }
 
         public void ResetGame ()
         {
             GameController.ResetGameBoard ();
-            
             ResetPlayerData ();
         }
 
         public void OnHomeButtonClicked ()
         {
             ResetGame ();
-
             ShowMenuScreen ();
+        }
+
+        public void SaveDataForKey (string key, int value)
+        {
+            PlayerPrefs.SetInt (key , value);
+        }
+
+        public void OnScoreBoradClicked ()
+        {
+            scoreBoard.SetActive (true);
+        }
+
+        public void OnCloseButtonClicked ()
+        {
+            Application.Quit ();
         }
     }
 }

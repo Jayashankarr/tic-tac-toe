@@ -28,21 +28,18 @@ namespace TicTakToe.Ui
         public CellSymbol CellAssignedSymbol
         {
             set {cellAssignedSymbol = value;}
-            
             get {return cellAssignedSymbol;}
         }
 
         public Vector2 Cell2DIndex 
         {
             set {cell2DIndex = value;}
-
             get {return cell2DIndex;}
         }
 
         public int Index
         {
             set {index = value;}
-
             get {return index;}
         }
 
@@ -55,29 +52,22 @@ namespace TicTakToe.Ui
             if (GameManager.Instance.GameController.CurrentTurn == PlayerSymbol.X)
             {
                 x.SetActive (true);
-
                 cellAssignedSymbol = CellSymbol.X;
-
-
             }
             else
             {
                 o.SetActive (true);
-
                 cellAssignedSymbol = CellSymbol.O;
             }
 
             button.interactable = false;
-
             GameManager.Instance.GameController.UpdateTurn (this);
         }
 
         public void ResetCell ()
         {
             cellAssignedSymbol = CellSymbol.EMPTY;
-
             x.SetActive (false);
-
             o.SetActive (false);
         }
     }

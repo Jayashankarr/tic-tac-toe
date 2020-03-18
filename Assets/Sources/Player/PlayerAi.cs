@@ -26,9 +26,7 @@ namespace TicTakToe.Player
             ResetAI ();
             
             turnDelay = Mathf.Max(turnDelay, 0.1f);
-
             enemyTurns = new List<Vector2>();
-
             prevTurns = new List<Vector2>();
         }
 
@@ -56,11 +54,8 @@ namespace TicTakToe.Player
         private void PerformTurn()
         {
             GridCell[,] cells = GameManager.Instance.GameController.GetCellMatrix();
-
             GridCell center = cells[1, 1];
-
             GridCell[] corners = { cells[0, 0], cells[0, 2], cells[2, 0], cells[2, 2] };
-
             GridCell targetCell;
 
             if (enemyTurns.Count < 2)
@@ -73,11 +68,6 @@ namespace TicTakToe.Player
                 {
                     targetCell = RandomCornerTurn(corners, 1000);
                 }
-
-                // if (targetCell == null)
-                // {
-                //     targetCell = RandomCornerTurn(corners, 1000);
-                // }
             }
             else
             {
@@ -91,12 +81,15 @@ namespace TicTakToe.Player
                 if (targetCell == null)
                 {
                     targetCell = RandomCornerTurn(corners, rndCornerIterations);
-                    if (targetCell == null) targetCell = RandomTurn(true);
+
+                    if (targetCell == null)
+                    {
+                        targetCell = RandomTurn(true);
+                    }
                 }
             }
 
             targetCell.setCell ();
-
             prevTurns.Add(targetCell.Cell2DIndex);
         }
 
@@ -126,13 +119,10 @@ namespace TicTakToe.Player
                 for (int j = i + 1; j < turns.Count; j++)
                 {
                     Vector2 inner = turns[j];
-
                     Vector2 dir = inner - outer;
 
                     inner += dir;
-
                     inner.x %= 3;
-
                     inner.y %= 3;
 
                     if (inner.x < 0)
@@ -176,7 +166,6 @@ namespace TicTakToe.Player
         public void ResetAI()
         {
             prevTurns = new List<Vector2>();
-
             enemyTurns = new List<Vector2>();
         }
     }

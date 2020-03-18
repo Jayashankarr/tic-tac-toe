@@ -51,7 +51,6 @@ public class GameController : MonoBehaviour
     private void OnEnable()
     {   
         cellList = board.Cells;
-
         cellMatrix = new GridCell[3,3];
 
         for(int i = 0; i < 3; i++)
@@ -68,9 +67,7 @@ public class GameController : MonoBehaviour
     public void UpdateTurn(GridCell lastCell)
     {
         numberOfTurns++;
-
         lastClickedCell = lastCell;
-
         int weight = 1 << lastCell.Index;
 
         if (lastCell.CellAssignedSymbol == CellSymbol.X)
@@ -99,14 +96,12 @@ public class GameController : MonoBehaviour
             if (GameManager.Instance.GameType == GameType.SINGLE_PLAYER)
             {
                 AIturn ();
-
                 EnableCellInputs (false);
             }
         }
         else
         {
             EnableCellInputs (true);
-
             currentPlayerSymbol = PlayerSymbol.X;
         }
     }
@@ -114,18 +109,17 @@ public class GameController : MonoBehaviour
     private void checkForWin (GridCell cell)
     {
         LineType type;
+
         
         if (lastClickedCell.CellAssignedSymbol == CellSymbol.X)
         {
-            
-
             if ( ( (GameManager.Instance.player_x.CheckedValue & (int)WinCombo.R_1) == (int)WinCombo.R_1) ||
                ( (GameManager.Instance.player_x.CheckedValue & (int)WinCombo.R_2) == (int)WinCombo.R_2) ||
                ( (GameManager.Instance.player_x.CheckedValue & (int)WinCombo.R_3) == (int)WinCombo.R_3) )
             {
                 type = LineType.HORIZONTAL;
-
                 line.gameObject.GetComponent<Image>().color = xColor;
+                GameManager.Instance.player_x.WinType = WinType.WIN;
 
                 GenerateWinLine (type);
             }
@@ -135,8 +129,8 @@ public class GameController : MonoBehaviour
                ( (GameManager.Instance.player_x.CheckedValue & (int)WinCombo.C_3) == (int)WinCombo.C_3) )
             {
                 type = LineType.VERTICAL;
-
                 line.gameObject.GetComponent<Image>().color = xColor;
+                GameManager.Instance.player_x.WinType = WinType.WIN;
 
                 GenerateWinLine (type);
             }
@@ -144,8 +138,8 @@ public class GameController : MonoBehaviour
             if ( (GameManager.Instance.player_x.CheckedValue & (int)WinCombo.D_1) == (int)WinCombo.D_1 )
             {
                 type = LineType.DIAGONAL_R;
-
                 line.gameObject.GetComponent<Image>().color = xColor;
+                GameManager.Instance.player_x.WinType = WinType.WIN;
 
                 GenerateWinLine (type);
             }
@@ -153,23 +147,21 @@ public class GameController : MonoBehaviour
             if ( (GameManager.Instance.player_x.CheckedValue & (int)WinCombo.D_2) == (int)WinCombo.D_2 )
             {
                 type = LineType.DIAGONAL_L;
-
                 line.gameObject.GetComponent<Image>().color = xColor;
+                GameManager.Instance.player_x.WinType = WinType.WIN;
 
                 GenerateWinLine (type);
             }
         }
         else
         {
-            int temp = GameManager.Instance.player_o.CheckedValue & (int)WinCombo.D_2;
-
             if ( ( (GameManager.Instance.player_o.CheckedValue & (int)WinCombo.R_1) == (int)WinCombo.R_1) ||
                ( (GameManager.Instance.player_o.CheckedValue & (int)WinCombo.R_2) == (int)WinCombo.R_2) ||
                ( (GameManager.Instance.player_o.CheckedValue & (int)WinCombo.R_3) == (int)WinCombo.R_3) )
             {
                 type = LineType.HORIZONTAL;
-
                 line.gameObject.GetComponent<Image>().color = oColor;
+                GameManager.Instance.player_o.WinType = WinType.WIN;
 
                 GenerateWinLine (type);
             }
@@ -179,8 +171,8 @@ public class GameController : MonoBehaviour
                ( (GameManager.Instance.player_o.CheckedValue & (int)WinCombo.C_3) == (int)WinCombo.C_3) )
             {
                 type = LineType.VERTICAL;
-
                 line.gameObject.GetComponent<Image>().color = oColor;
+                GameManager.Instance.player_o.WinType = WinType.WIN;
 
                 GenerateWinLine (type);
             }
@@ -188,8 +180,8 @@ public class GameController : MonoBehaviour
             if ( (GameManager.Instance.player_o.CheckedValue & (int)WinCombo.D_1) == (int)WinCombo.D_1 )
             {
                 type = LineType.DIAGONAL_R;
-
                 line.gameObject.GetComponent<Image>().color = oColor;
+                GameManager.Instance.player_o.WinType = WinType.WIN;
 
                 GenerateWinLine (type);
             }
@@ -197,14 +189,17 @@ public class GameController : MonoBehaviour
             if ( (GameManager.Instance.player_o.CheckedValue & (int)WinCombo.D_2) == (int)WinCombo.D_2 )
             {
                 type = LineType.DIAGONAL_L;
-
                 line.gameObject.GetComponent<Image>().color = oColor;
+                GameManager.Instance.player_o.WinType = WinType.WIN;
 
                 GenerateWinLine (type);
             }
 
             if (numberOfTurns == 9)
             {
+                GameManager.Instance.player_x.WinType = WinType.DRAW;
+                GameManager.Instance.player_o.WinType = WinType.DRAW;
+
                 gameOver ();
             }
         }
@@ -213,8 +208,10 @@ public class GameController : MonoBehaviour
     private void gameOver ()
     {
         numberOfTurns = 0;
-
         lastClickedCell = null;
+
+        GameManager.Instance.SaveDataForKey (GameManager.Instance.player_x.Name + "_Score", (int)GameManager.Instance.player_x.WinType);
+        GameManager.Instance.SaveDataForKey (GameManager.Instance.player_o.Name + "_Score", (int)GameManager.Instance.player_o.WinType);
     }
 
     public void EnableCellInputs (bool status)
@@ -227,9 +224,7 @@ public class GameController : MonoBehaviour
 
     private void GenerateWinLine(LineType type)
     {
-        Debug.Log ("Generate line");
         GridCell lineOrigin;
-
         Vector2 lastCellIndex = lastClickedCell.Cell2DIndex;
 
         line.gameObject.SetActive (true);
@@ -312,16 +307,13 @@ public class GameController : MonoBehaviour
         }
 
         ResetWinLine ();
-
         currentPlayerSymbol = PlayerSymbol.X;
-
         ai.ResetAI ();
     }
 
     public void ResetWinLine ()
     {
         line.ResetWinLine ();
-
         line.gameObject.SetActive (false);
     }
 }
