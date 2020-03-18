@@ -68,7 +68,10 @@ namespace TicTakToe.Ui
 
         public void ResetWinLine ()
         {
-            rectTransform.sizeDelta = new Vector2(startWidth, rectTransform.sizeDelta.y);
+            if (rectTransform != null)
+            {
+                rectTransform.sizeDelta = new Vector2(startWidth, rectTransform.sizeDelta.y);
+            }
         }
     }
 }

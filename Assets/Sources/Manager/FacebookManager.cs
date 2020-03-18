@@ -145,6 +145,7 @@ namespace TicTakToe.Manager
 			PlayerPrefs.Save();
 			userID = AccessToken.CurrentAccessToken.UserId;
 			getPicture(AccessToken.CurrentAccessToken.UserId);
+			getUserName ();
 			GameManager.Instance.ShowMenuScreen ();
 		}
 

@@ -28,9 +28,6 @@ namespace TicTakToe.Manager
         private GameObject facebookManagerGo;
 
         [SerializeField]
-        private GameObject playerInfo;
-
-        [SerializeField]
         private Text playerxName;
 
         [SerializeField]
@@ -59,6 +56,15 @@ namespace TicTakToe.Manager
 
         [SerializeField]
         private GameObject scoreBoard;
+
+        [SerializeField]
+        public GameObject PlayerXInfo;
+        
+        [SerializeField]
+        public GameObject PlayerOInfo;
+
+        [SerializeField]
+        private Text victoryText;
 
         public Button FbBtn;   
 
@@ -102,12 +108,14 @@ namespace TicTakToe.Manager
         {
             startScreen.SetActive (false);
             mainMenu.SetActive (true);
-            playerInfo.SetActive (false);
             homeBtn.SetActive (false);
             resetBtn.SetActive (false);
             gameBoard.SetActive (false);
             GameController.gameObject.SetActive (false);
             scoreBtn.SetActive (false);
+            PlayerOInfo.SetActive (false);
+            PlayerXInfo.SetActive (false);
+            victoryText.text = "";
         }
 
         public void ShowResultScreen ()
@@ -124,9 +132,12 @@ namespace TicTakToe.Manager
 
             player_x.SetPlayerData (FacebookManagerGO.GetComponent<FacebookManager>().UserName, 
                                     FacebookManagerGO.GetComponent<FacebookManager>().ProfilePic);
+            playerxName.text = player_x.Name;
+            playerXImage.sprite = player_x.Picture;
 
-            player_x.SetPlayerData ("AI", 
+            player_o.SetPlayerData ("AI", 
                                     null);
+            playeroName.text = player_o.Name;
             startGame ();
         }
 
@@ -138,20 +149,25 @@ namespace TicTakToe.Manager
 
             player_x.SetPlayerData (FacebookManagerGO.GetComponent<FacebookManager>().UserName, 
                                     FacebookManagerGO.GetComponent<FacebookManager>().ProfilePic);
+            playerxName.text = player_x.Name;
+            playerXImage.sprite = player_x.Picture;
 
             player_x.SetPlayerData ("Player_2", 
                                     null);
+            playeroName.text = player_o.Name;
+
             startGame ();
         }
 
         private void startGame ()
         {
+            GameManager.Instance.PlayerXInfo.SetActive (true);
+
             GameManager.Instance.SaveDataForKey (GameManager.Instance.player_x.Name + "_Score", (int)GameManager.Instance.player_x.WinType);
             GameManager.Instance.SaveDataForKey (GameManager.Instance.player_o.Name + "_Score", (int)GameManager.Instance.player_o.WinType);
 
             mainMenu.SetActive (false);
             gameBoard.SetActive (true);
-            playerInfo.SetActive (true);
             homeBtn.SetActive (true);
             resetBtn.SetActive (true);
             GameController.gameObject.SetActive (true);
@@ -188,6 +204,7 @@ namespace TicTakToe.Manager
 
         public void ResetGame ()
         {
+            victoryText.text = "";
             GameController.ResetGameBoard ();
             ResetPlayerData ();
         }
@@ -200,12 +217,34 @@ namespace TicTakToe.Manager
 
         public void SaveDataForKey (string key, int value)
         {
+            value += PlayerPrefs.GetInt (key,0);
             PlayerPrefs.SetInt (key , value);
         }
 
         public void OnScoreBoradClicked ()
         {
             scoreBoard.SetActive (true);
+        }
+
+        public void ShowVictory ()
+        {
+            victoryText.text = "VICTORY";
+            if (player_x.WinType == WinType.WIN)
+            {
+                PlayerXInfo.SetActive (true);
+            }
+            else
+            {
+                PlayerOInfo.SetActive (true);
+            }
+
+            if (player_x.WinType == WinType.DRAW && player_o.WinType == WinType.DRAW)
+            {
+                PlayerXInfo.SetActive (true);
+                PlayerOInfo.SetActive (true);
+
+                victoryText.text = "DRAW";
+            }
         }
 
         public void OnCloseButtonClicked ()

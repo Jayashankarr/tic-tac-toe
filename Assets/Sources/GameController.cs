@@ -98,9 +98,14 @@ public class GameController : MonoBehaviour
                 AIturn ();
                 EnableCellInputs (false);
             }
+            GameManager.Instance.PlayerOInfo.SetActive (true);
+            GameManager.Instance.PlayerXInfo.SetActive (false);
         }
         else
         {
+            GameManager.Instance.PlayerXInfo.SetActive (true);
+            GameManager.Instance.PlayerOInfo.SetActive (false);
+
             EnableCellInputs (true);
             currentPlayerSymbol = PlayerSymbol.X;
         }
@@ -212,6 +217,8 @@ public class GameController : MonoBehaviour
 
         GameManager.Instance.SaveDataForKey (GameManager.Instance.player_x.Name + "_Score", (int)GameManager.Instance.player_x.WinType);
         GameManager.Instance.SaveDataForKey (GameManager.Instance.player_o.Name + "_Score", (int)GameManager.Instance.player_o.WinType);
+
+        GameManager.Instance.ShowVictory ();
     }
 
     public void EnableCellInputs (bool status)
